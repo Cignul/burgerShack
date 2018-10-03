@@ -41,6 +41,7 @@ namespace burgershack
               .AllowCredentials();
             });
       });
+      //instead of setcompatibiltyversion
       services.AddMvc();
 
       services.AddTransient<IDbConnection>(x => CreateDBContext());

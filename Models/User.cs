@@ -40,14 +40,16 @@ namespace burgershack.Models
     [EmailAddress]
     [Required]
     public string Email { get; set; }
-    private ClaimsPrincipal _principal { get; set; }
+    public ClaimsPrincipal _principal { get; private set; }
 
     internal void SetClaims()
     {
       var claims = new List<Claim>{
         new Claim(ClaimTypes.Email, Email),
-        new Claim(ClaimTypes.NameIdentifier,Id) //req.session.uid = id
+        new Claim(ClaimTypes.Name,Id) //req.session.uid = id
       };
+      var userIdentity = new ClaimsIdentity(claims, "login");
+      _principal = new ClaimsPrincipal(userIdentity);
     }
   }
 }

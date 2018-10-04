@@ -58,7 +58,16 @@ namespace burgershack.Repositories
       return user;
     }
 
-
+    internal User GetUserById(string id)
+    {
+      var user _db.Query<User>(@"
+      SELECT * FROM users WHERE id - @id
+      ", new { id }).FirstOrDefault();
+      if (user != null)
+      {
+        user.Hash = null;
+      }
+    }
     //update U
     //change password U
     //delete D

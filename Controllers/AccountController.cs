@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using burgershack.Models;
 using burgershack.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,26 +13,34 @@ namespace burgershack.Controllers
 
     [HttpPost("login")]
 
-    public async
-
-
-
-
-
-
-
-
-
-
-
-    public AccountController(UserRepository repo)
+    public async Task<User> Login([FromBody]UserLogin creds)
     {
-      _repo = repo;
+      if (!ModelState.IsValid) { return null; }
+      User user = _repo.Login(creds);
+      if (user == null) { return null; }
+
     }
 
 
-
   }
+
+
+
+
+
+
+
+
+
+
+  public AccountController(UserRepository repo)
+  {
+    _repo = repo;
+  }
+
+
+
+}
 }
 
 

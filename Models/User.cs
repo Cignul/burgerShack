@@ -45,7 +45,8 @@ namespace burgershack.Models
     internal void SetClaims()
     {
       var claims = new List<Claim>{
-        new Claim(ClaimTypes.Email, Email)
+        new Claim(ClaimTypes.Email, Email),
+        new Claim(ClaimTypes.NameIdentifier,Id) //req.session.uid = id
       };
     }
   }

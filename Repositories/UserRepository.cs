@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Linq;
 using BCrypt.Net;
 using burgershack.Models;
 using Dapper;
@@ -44,6 +45,20 @@ namespace burgershack.Repositories
 
     }
     //login  R
+
+    public User Login(UserLogin creds)
+    {
+      User user = _db.Query<User>(@"
+     SELECT * FROM users WHERE email = @Email
+     ", creds).FirstOrDefault();
+      if (user == null) { return null; }
+      bool validPass = BCrypt.Net.BCrypt.Verify(creds.Password, user.Hash);
+      if (!validPass) { return null; }
+      user.Hash = null;
+      return user;
+    }
+
+
     //update U
     //change password U
     //delete D

@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using burgershack.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +31,20 @@ namespace burgershack
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      //ADD USER AUTH through JWT
+      services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+          .AddCookie(options =>
+          {
+            options.LoginPath = "/Account/Login";
+            options.Events.OnRedirectToLogin = (context) =>
+            {
+              context.Response.StatusCode = 401;
+              return Task.CompletedTask;
+
+            };
+          });
+
+
       services.AddCors(options =>
       {
         options.AddPolicy("CorsDevPolicy", builder =>
@@ -47,6 +62,7 @@ namespace burgershack
       services.AddTransient<IDbConnection>(x => CreateDBContext());
       services.AddTransient<BurgersRepository>();
       services.AddTransient<SmoothiesRepository>();
+      services.AddTransient<UserRepository>();
       // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
     }
 
@@ -70,10 +86,11 @@ namespace burgershack
       {
         app.UseHsts();
       }
+      app.UseAuthentication();
       app.UseDefaultFiles();
       app.UseStaticFiles();
-
       app.UseMvc();
     }
   }
 }
+

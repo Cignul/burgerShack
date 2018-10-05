@@ -21,3 +21,21 @@
 
 -- DELETE FROM burgers WHERE id = 1;
 
+-- USER TABLE CREATIOn
+
+CREATE TABLE users (
+  id VARCHAR(255) NOT NULL,
+  username VARCHAR(20) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  hash VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY email (email)
+);
+
+-- FAVORITES TABLE
+
+CREATE TABLE userburgers(
+  id int NOT NULL AUTO_INCREMENT,
+  burgerId int NOT NULL,
+  userId VARCHAR(255) NOT NULL,
+  );

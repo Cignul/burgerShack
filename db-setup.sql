@@ -21,7 +21,7 @@
 
 -- DELETE FROM burgers WHERE id = 1;
 
--- USER TABLE CREATIOn
+-- USER TABLE CREATION
 
 CREATE TABLE users (
   id VARCHAR(255) NOT NULL,
@@ -38,4 +38,15 @@ CREATE TABLE userburgers(
   id int NOT NULL AUTO_INCREMENT,
   burgerId int NOT NULL,
   userId VARCHAR(255) NOT NULL,
+
+  PRIMARY KEY (id)
+  INDEX (userId)
+
+  FOREIGN KEY (userId)
+    REFERENCES users(id)
+    ON DELETE CASCADE,
+
+  FOREIGN KEY (burgerId)
+    REFERENCES burgers(id)
+    ON DELETE CASCADE
   );
